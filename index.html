@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Soledo Static - Finance Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script src="assets/js/currency-picker.js" defer></script>
+  <script src="assets/js/app.js" defer></script>
+</head>
+<body>
+  <main class="container">
+    <header>
+      <div class="header-top">
+        <div class="wordmark">Soledo <span>Static</span></div>
+        <div class="header-actions">
+          <div class="currency-toggle">
+            <div class="cur-select-wrap" id="currencyPickerWrap">
+              <button class="cur-select-trigger" id="currencyTrigger" type="button" aria-haspopup="listbox" aria-expanded="false">
+                <span class="cur-select-display">
+                  <span class="cur-display-symbol" id="currencyDisplaySym">$</span>
+                  <span class="cur-display-code" id="currencyDisplayCode">USD</span>
+                </span>
+                <span class="cur-display-caret">&#9662;</span>
+              </button>
+              <div class="cur-dropdown" id="currencyDropdown" hidden>
+                <div class="cur-dropdown-list" id="currencyDropdownList" role="listbox" aria-label="Select currency"></div>
+              </div>
+            </div>
+          </div>
+          <button class="btn-sm" id="exportBtn" type="button">&#8593; Export</button>
+          <button class="btn-sm" id="importTriggerBtn" type="button">&#8595; Import</button>
+          <input type="file" id="importFile" accept=".json">
+        </div>
+      </div>
+      <div class="rate-badge">
+        <span class="rate-dot stale" id="rateDot"></span>
+        <span id="rateText">Fetching exchange rates...</span>
+        <a class="rate-link" href="https://www.exchangerate-api.com/docs/free" target="_blank" rel="noreferrer">Rates by ExchangeRate-API</a>
+      </div>
+    </header>
+
+    <section class="balance-card">
+      <div class="balance-label">Current Balance</div>
+      <div class="balance-display">
+        <div class="balance-amount zero" id="balanceDisplay">$0.00</div>
+        <button class="btn-sm" id="editBalanceBtn" type="button">Edit</button>
+      </div>
+      <div class="balance-secondary" id="balanceSecondary"></div>
+      <div class="balance-edit-area" id="balanceEditArea">
+        <div class="balance-input-wrap">
+          <span class="currency-sym" id="editCurrencySym">$</span>
+          <input type="number" id="balanceInput" placeholder="Enter balance" step="0.01">
+        </div>
+        <button class="btn-set" id="setBalanceBtn" type="button">Set Balance</button>
+      </div>
+      <div class="balance-meta">
+        <div class="meta-item">
+          <span class="meta-label">Total In</span>
+          <span class="meta-value green" id="totalIn">$0.00</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Total Out</span>
+          <span class="meta-value red" id="totalOut">$0.00</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Transactions</span>
+          <span class="meta-value" id="txnCount">0</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="form-section">
+      <div class="form-section-title">New Transaction</div>
+      <div class="type-toggle">
+        <button class="type-btn income active" id="btnIncome" type="button" data-type="income">+ Income</button>
+        <button class="type-btn expense" id="btnExpense" type="button" data-type="expense">- Expense</button>
+      </div>
+      <div class="form-row">
+        <div class="form-field">
+          <label id="sourceLabel" for="txnDesc">Source</label>
+          <div class="field-input">
+            <input type="text" id="txnDesc" placeholder="e.g. Salary, Freelance...">
+          </div>
+        </div>
+        <div class="form-field">
+          <label for="txnAmount">Amount (<span id="formCurrencyLabel">USD</span>)</label>
+          <div class="field-input">
+            <span class="currency-sym" id="formCurrencySym">$</span>
+            <input type="number" id="txnAmount" placeholder="0.00" step="0.01" min="0">
+          </div>
+        </div>
+      </div>
+      <button class="btn-add income" id="addBtn" type="button">Record Income</button>
+    </section>
+
+    <section class="history-section">
+      <div class="history-header">
+        <span class="history-title">Ledger History</span>
+        <div class="filter-row">
+          <button class="filter-btn active" type="button" data-filter="all">All</button>
+          <button class="filter-btn" type="button" data-filter="income">In</button>
+          <button class="filter-btn" type="button" data-filter="expense">Out</button>
+        </div>
+      </div>
+      <ul class="txn-list" id="txnList"></ul>
+      <div class="empty-state" id="emptyState">No transactions yet - start by setting your balance.</div>
+    </section>
+  </main>
+
+  <div id="toast" aria-live="polite"></div>
+</body>
+</html>
